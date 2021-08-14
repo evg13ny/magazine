@@ -1,0 +1,1 @@
+Magazine site built using Laravel.
