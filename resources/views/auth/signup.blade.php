@@ -111,34 +111,27 @@ body {
 
 <div class="login-page">
   <div class="form">
+
     <form class="register-form" method="POST" action="{{url('register')}}">
-
       <h1>Register</h1>
-      @csrf
-  
-      <input type="text" placeholder="name"/>
-      <input type="password" placeholder="password"/>
-      <input type="text" placeholder="email address"/>
+      <span style="font-size:12px;color:red">
+          @foreach($errors->all() as $error)
+          {{$error}}<br>
+          @endforeach
+      </span>
+      @csrf  
+      <input type="text" placeholder="Name" name="name" value="{{old('name')}}"/>
+      <input type="text" placeholder="Email address" name="email" value="{{old('email')}}"/>
+      <input type="text" placeholder="Password" name="password" value="{{old('password')}}"/>
       <button>create</button>
-      <p class="message">Already registered? <a href="#">Sign In</a></p>
+      <p class="message">Already registered? <a href="{{url('login')}}">Sign In</a></p>
     </form>
-    <form class="login-form" method="POST" action="{{url('login')}}">
-
-      <h1>Login</h1>
-      @csrf
-
-      <input type="text" placeholder="username"/>
-      <input type="password" placeholder="password"/>
-      <button>login</button>
-      <p class="message">Not registered? <a href="#">Create an account</a></p>
-    </form>
+    
   </div>
 </div>
 
 @include('footer')
 
 <script>
-$('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-});
 </script>

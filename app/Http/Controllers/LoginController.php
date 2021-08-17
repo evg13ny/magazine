@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -18,12 +19,25 @@ class LoginController extends Controller
     public function save(Request $req)
     {
 
-        $validate = $req->validate([
+        $validated = $req->validate([
 
-            'key' => 'required|string',
-            'key' => 'required|image',
+            'email' => 'required|email',
+            'password' => 'required'
+
         ]);
 
-        return view('view');
+        if (Auth::attempt($validated)) {
+            // things went well
+
+            $req->session()->regenerate();
+
+            return redirect()->intended('admin');
+        }
+
+        return back()->withErrors([
+
+            'email' => 'Wrong email or password'
+
+        ]);
     }
 }
