@@ -1,7 +1,21 @@
-@include('header')
+@include('admin.header')
+@include('admin.sidebar')
 
-<div>
-    <h1>Admin Area</h1>
+<div id="page-wrapper">
+    <div id="page-inner">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>{{$page_title}}</h2>
+            </div>
+        </div>
+        <!-- /. ROW  -->
+        <hr />
+
+        <!-- /. ROW  -->
+    </div>
+    <!-- /. PAGE INNER  -->
+</div>
+<!-- /. PAGE WRAPPER  -->
 </div>
 
-@include('footer')
+@include('admin.header')

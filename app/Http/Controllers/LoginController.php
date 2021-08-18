@@ -26,7 +26,7 @@ class LoginController extends Controller
 
         ]);
 
-        if (Auth::attempt($validated)) {
+        if (Auth::attempt($validated, $req->input('remember'))) {
             // things went well
 
             $req->session()->regenerate();
