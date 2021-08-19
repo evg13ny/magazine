@@ -18,4 +18,4 @@
 <!-- /. PAGE WRAPPER  -->
 </div>
 
-@include('admin.header')
+@include('admin.footer')

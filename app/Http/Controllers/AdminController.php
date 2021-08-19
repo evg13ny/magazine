@@ -18,7 +18,7 @@ class AdminController extends Controller
     public function posts(Request $req)
     {
 
-        return view('admin.admin', ['page_title' => 'Posts']);
+        return view('admin.posts', ['page_title' => 'Posts']);
     }
 
     public function categories(Request $req)
