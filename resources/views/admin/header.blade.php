@@ -39,6 +39,10 @@
                     <a href="{{url('/')}}" style="color:#fff;">VIEW WEBSITE</a>
                 </span>
 
+                @auth
+                <span style="color: white;">Hi, {{Auth::user()->name}}!<br>{{Auth::user()->email}}</span>
+                @endauth
+
             </div>
         </div>
         <!-- /. NAV TOP  -->

@@ -11,10 +11,24 @@
                 <h2>{{$page_title}}</h2>
             </div>
 
-            <form action="">
-                @csrf
-                <textarea name="content" id="summernote" cols="30" rows="10"></textarea>
-            </form>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Content</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
 
         </div>
         <!-- /. ROW  -->
