@@ -14,10 +14,14 @@
             <div class="container-fluid col-lg-12">
                 <form method="POST" enctype="multipart/form-data">
 
+                    @foreach($errors->all() as $error)
+                    {{$error}}<br>
+                    @endforeach
+
                     <div class="form-group row">
                         <label for="title" class="col-sm-2 col-form-label">Post Title</label>
                         <div class="col-sm-10">
-                            <input id="title" type="text" class="form-control" placeholder="Title" name="title" autofocus><br>
+                            <input value="{{old('title')}}" id="title" type="text" class="form-control" placeholder="Title" name="title" autofocus><br>
                         </div>
                     </div>
 
@@ -39,7 +43,9 @@
 
                     @csrf
                     <h4>Post Content</h4>
-                    <textarea name="content" id="summernote"></textarea>
+                    <textarea name="content" id="summernote">{{old('content')}}</textarea>
+
+                    <input class="btn btn-primary" type="submit" value="Post">
 
                 </form>
             </div>
@@ -61,6 +67,8 @@
 
 <script>
     $(document).ready(function() {
-        $('#summernote').summernote();
+        $('#summernote').summernote({
+            height: 400
+        });
     });
 </script>
