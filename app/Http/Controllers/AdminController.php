@@ -56,7 +56,16 @@ class AdminController extends Controller
                 break;
 
             default:
-                return view('admin.posts', ['page_title' => 'Posts']);
+
+                // $post = new Post();
+                // $rows = $post->all();
+
+                $query = "select posts.*, categories.category from posts join categories on posts.category_id = categories.id";
+                $rows = DB::select($query);
+                $data['rows'] = $rows;
+                $data['page_title'] = 'Posts';
+
+                return view('admin.posts', $data);
                 break;
         }
     }
