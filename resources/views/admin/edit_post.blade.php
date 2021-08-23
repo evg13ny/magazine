@@ -25,7 +25,8 @@
                     <div class="form-group row">
                         <label for="title" class="col-sm-2 col-form-label">Post Title</label>
                         <div class="col-sm-10">
-                            <input value="{{old('title')}}" id="title" type="text" class="form-control" placeholder="Title" name="title" autofocus><br>
+                            <input value="{{$row->title}}" id="title" type="text" class="form-control" placeholder="Title" name="title" autofocus><br>
+                            <img src="{{url('uploads/'.$row->image)}}" style="width: 200px;">
                         </div>
                     </div>
 
@@ -40,16 +41,16 @@
                         <label for="category_id" class="col-sm-2 col-form-label">Post Category</label>
                         <div class="col-sm-10">
                             <select id="category_id" name="category_id" class="form-control">
-                                <option>--Select Category--</option>
+                                <option value="{{$row->category_id}}">{{$category->category}}</option>
                             </select>
                         </div>
                     </div>
 
                     @csrf
                     <h4>Post Content</h4>
-                    <textarea name="content" id="summernote">{{old('content')}}</textarea>
+                    <textarea name="content" id="summernote">{{$row->content}}</textarea>
 
-                    <input class="btn btn-primary" type="submit" value="Post">
+                    <input class="btn btn-primary" type="submit" value="Save">
 
                 </form>
             </div>

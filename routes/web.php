@@ -42,5 +42,8 @@ Route::get('/admin/posts',[AdminController::class,'posts'])->middleware('auth');
 Route::get('/admin/posts/{type}',[AdminController::class,'posts'])->middleware('auth');
 Route::post('/admin/posts/{type}',[AdminController::class,'posts'])->middleware('auth');
 
+Route::get('/admin/posts/{type}/{id}',[AdminController::class,'posts'])->middleware('auth');
+Route::post('/admin/posts/{type}/{id}',[AdminController::class,'posts'])->middleware('auth');
+
 Route::get('/admin/categories',[AdminController::class,'categories'])->middleware('auth');
 Route::get('/admin/users',[AdminController::class,'users'])->middleware('auth');

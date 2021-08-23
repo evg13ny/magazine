@@ -16,7 +16,7 @@ class AdminController extends Controller
         return view('admin.admin', ['page_title' => 'Dashboard']);
     }
 
-    public function posts(Request $req, $type = '')
+    public function posts(Request $req, $type = '', $id = '')
     {
 
         switch ($type) {
@@ -48,7 +48,17 @@ class AdminController extends Controller
                 break;
 
             case 'edit':
-                return view('admin.posts', ['page_title' => 'Edit Post']);
+
+                $post = new Post();
+                $row = $post->find($id);
+                $category = $row->category()->first();
+
+                return view('admin.edit_post', [
+                    'page_title' => 'Edit Post',
+                    'row' => $row,
+                    'category' => $category
+                ]);
+
                 break;
 
             case 'delete':
