@@ -8,7 +8,6 @@ use App\Models\Post;
 
 class AdminController extends Controller
 {
-    //
 
     public function index(Request $req)
     {
@@ -20,7 +19,9 @@ class AdminController extends Controller
     {
 
         switch ($type) {
+
             case 'add':
+
                 if ($req->method() == 'POST') {
 
                     $post = new Post();
@@ -45,11 +46,47 @@ class AdminController extends Controller
                 }
 
                 return view('admin.add_post', ['page_title' => 'New Post']);
+
                 break;
 
             case 'edit':
 
                 $post = new Post();
+
+                if ($req->method() == 'POST') {
+
+                    $validated = $req->validate([
+
+                        'title'   => 'required|string',
+                        'file'    => 'image',
+                        'content' => 'required'
+                    ]);
+
+                    if ($req->file('file')) {
+
+                        $oldrow = $post->find($id);
+
+                        if (file_exists('uploads/' . $oldrow->image)) {
+
+                            unlink('uploads/' . $oldrow->image);
+                        }
+
+                        $path = $req->file('file')->store('/', ['disk' => 'my_disk']);
+                        $data['image'] = $path;
+                    }
+
+
+                    // $data['id']          = $id;
+                    $data['title']       = $req->input('title');
+                    $data['category_id'] = $req->input('category_id');
+                    $data['content']     = $req->input('content');
+                    $data['updated_at']  = date("Y-m-d H:i:s");
+
+                    $post->where('id', $id)->update($data);
+
+                    return redirect('admin/posts');
+                }
+
                 $row = $post->find($id);
                 $category = $row->category()->first();
 
@@ -62,7 +99,26 @@ class AdminController extends Controller
                 break;
 
             case 'delete':
-                return view('admin.posts', ['page_title' => 'Delete Post']);
+
+                $post = new Post();
+
+                $row = $post->find($id);
+
+                $category = $row->category()->first();
+
+                if ($req->method() == 'POST') {
+
+                    $row->delete();
+
+                    return redirect('admin/posts');
+                }
+
+                return view('admin.delete_post', [
+                    'page_title' => 'Delete Post',
+                    'row' => $row,
+                    'category' => $category
+                ]);
+
                 break;
 
             default:
@@ -76,6 +132,7 @@ class AdminController extends Controller
                 $data['page_title'] = 'Posts';
 
                 return view('admin.posts', $data);
+
                 break;
         }
     }

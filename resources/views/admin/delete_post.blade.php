@@ -12,6 +12,9 @@
             </div>
 
             <div class="container-fluid col-lg-12">
+
+                <h4>Are you sure you want to delete this post??</h4>
+
                 <form method="POST" enctype="multipart/form-data">
 
                     @if($errors->all())
@@ -25,35 +28,23 @@
                     <div class="form-group row">
                         <label for="title" class="col-sm-2 col-form-label">Post Title</label>
                         <div class="col-sm-10">
-                            <input value="{{$row->title}}" id="title" type="text" class="form-control" placeholder="Title" name="title" autofocus><br>
+                            <input disabled value="{{$row->title}}" id="title" type="text" class="form-control" placeholder="Title" name="title" autofocus><br>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="file" class="col-sm-2 col-form-label">Featured Image</label>
                         <div class="col-sm-10">
-                            <input id="file" type="file" class="form-control" name="file">
                             <img src="{{url('uploads/'.$row->image)}}" style="width: 200px;">
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label for="category_id" class="col-sm-2 col-form-label">Post Category</label>
-                        <div class="col-sm-10">
-                            <select id="category_id" name="category_id" class="form-control">
-                                <option value="{{$row->category_id}}">{{$category->category}}</option>
-                            </select>
-                        </div>
-                    </div>
-
                     @csrf
-                    <h4>Post Content</h4>
-                    <textarea name="content" id="summernote">{{$row->content}}</textarea>
-
-                    <input class="btn btn-primary" type="submit" value="Save">
+                    
+                    <input class="btn btn-danger" style="float:right" type="submit" value="Delete">
 
                     <a href="{{url('admin/posts')}}">
-                        <input class="btn btn-success" style="float:right" type="button" value="Back">
+                        <input class="btn btn-success" type="button" value="Back">
                     </a>
 
                 </form>
@@ -71,13 +62,3 @@
 </div>
 
 @include('admin.footer')
-
-<script src="{{url('summernote/summernote-lite.min.js')}}"></script>
-
-<script>
-    $(document).ready(function() {
-        $('#summernote').summernote({
-            height: 400
-        });
-    });
-</script>
