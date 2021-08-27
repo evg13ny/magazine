@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Post;
+use App\Models\Category;
 
 class AdminController extends Controller
 {
@@ -43,6 +44,8 @@ class AdminController extends Controller
                     $data['updated_at']  = date("Y-m-d H:i:s");
 
                     $post->insert($data);
+
+                    return redirect('admin/posts');
                 }
 
                 return view('admin.add_post', ['page_title' => 'New Post']);
@@ -74,7 +77,6 @@ class AdminController extends Controller
                         $path = $req->file('file')->store('/', ['disk' => 'my_disk']);
                         $data['image'] = $path;
                     }
-
 
                     // $data['id']          = $id;
                     $data['title']       = $req->input('title');
@@ -137,10 +139,101 @@ class AdminController extends Controller
         }
     }
 
-    public function categories(Request $req)
+    public function categories(Request $req, $type = '', $id = '')
     {
 
-        return view('admin.admin', ['page_title' => 'Categories']);
+        switch ($type) {
+
+            case 'add':
+
+                if ($req->method() == 'POST') {
+
+                    $category = new Category();
+
+                    $validated = $req->validate([
+
+                        'category'   => 'required|string',
+                    ]);
+
+                    $data['category']       = $req->input('category');
+                    $data['created_at']  = date("Y-m-d H:i:s");
+                    $data['updated_at']  = date("Y-m-d H:i:s");
+
+                    $category->insert($data);
+
+                    return redirect('admin/categories');
+                }
+
+                return view('admin.add_category', ['page_title' => 'New Category']);
+
+                break;
+
+            case 'edit':
+
+                $category = new Category();
+
+                if ($req->method() == 'POST') {
+
+                    $validated = $req->validate([
+
+                        'category' => 'required|string'
+                    ]);
+
+                    // $data['id']          = $id;
+                    $data['category']       = $req->input('category');
+                    $data['updated_at']  = date("Y-m-d H:i:s");
+
+                    $category->where('id', $id)->update($data);
+
+                    return redirect('admin/categories/edit/' . $id);
+                }
+
+                $row = $category->find($id);
+
+                return view('admin.edit_category', [
+                    'page_title' => 'Edit Category',
+                    'row' => $row,
+                ]);
+
+                break;
+
+            case 'delete':
+
+                $post = new Post();
+
+                $row = $post->find($id);
+
+                $category = $row->category()->first();
+
+                if ($req->method() == 'POST') {
+
+                    $row->delete();
+
+                    return redirect('admin/posts');
+                }
+
+                return view('admin.delete_post', [
+                    'page_title' => 'Delete Post',
+                    'row' => $row,
+                    'category' => $category
+                ]);
+
+                break;
+
+            default:
+
+                // $post = new Post();
+                // $rows = $post->all();
+
+                $query = "select * from categories order by id desc";
+                $rows = DB::select($query);
+                $data['rows'] = $rows;
+                $data['page_title'] = 'Categories';
+
+                return view('admin.categories', $data);
+
+                break;
+        }
     }
 
     public function users(Request $req)
