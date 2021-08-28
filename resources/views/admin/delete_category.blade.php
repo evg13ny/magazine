@@ -13,6 +13,8 @@
 
                 <?php if ($row) : ?>
 
+                    <h4>Are you sure you want to delete this category??</h4><br>
+
                     <form method="POST" enctype="multipart/form-data">
 
                         @if($errors->all())
@@ -26,16 +28,16 @@
                         <div class="form-group row">
                             <label for="category" class="col-sm-2 col-form-label">Category Name</label>
                             <div class="col-sm-10">
-                                <input value="{{$row->category}}" id="category" type="text" class="form-control" placeholder="Category" name="category" autofocus><br>
+                                <input disabled value="{{$row->category}}" id="category" type="text" class="form-control" placeholder="Category Name" name="category" autofocus><br>
                             </div>
                         </div>
 
                         @csrf
 
-                        <input class="btn btn-primary" type="submit" value="Save">
+                        <input class="btn btn-danger" style="float:right" type="submit" value="Delete">
 
                         <a href="{{url('admin/categories')}}">
-                            <input class="btn btn-success" style="float:right" type="button" value="Back">
+                            <input class="btn btn-success" type="button" value="Back">
                         </a>
 
                     </form>

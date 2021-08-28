@@ -1,7 +1,5 @@
 @include('admin.header')
 
-<link href="{{url('summernote/summernote-lite.min.css')}}" rel="stylesheet" />
-
 @include('admin.sidebar')
 
 <div id="page-wrapper">
@@ -61,11 +59,3 @@
 </div>
 
 @include('admin.footer')
-
-<script src="{{url('summernote/summernote-lite.min.js')}}"></script>
-
-<script>
-    $(document).ready(function() {
-        $('#summernote').summernote();
-    });
-</script>

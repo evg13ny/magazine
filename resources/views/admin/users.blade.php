@@ -7,15 +7,16 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>{{$page_title}}</h2>
-                <a href="{{url('admin/categories/add')}}">
-                    <button class="btn btn-primary btn-sm" style="float: right;"><i class="fa fa-plus"></i> Add Category</button>
+                <a href="{{url('register')}}">
+                    <button class="btn btn-primary btn-sm" style="float: right;"><i class="fa fa-plus"></i> Add User</button>
                 </a>
             </div>
 
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Category</th>
+                        <th>Name</th>
+                        <th>Email</th>
                         <th>Date</th>
                         <th>Action</th>
                     </tr>
@@ -24,14 +25,15 @@
                     @if($rows)
                     @foreach($rows as $row)
                     <tr>
-                        <td>{{$row->category}}</td>
+                        <td>{{$row->name}}</td>
+                        <td>{{$row->email}}</td>
                         <td>{{date("jS M, Y",strtotime($row->created_at))}}</td>
                         <td>
-                            <a href="{{url('admin/categories/edit/'.$row->id)}}">
+                            <a href="{{url('admin/users/edit/'.$row->id)}}">
                                 <button class="btn btn-success btn-sm "><i class="fa fa-edit"></i> Edit</button>
                             </a>
 
-                            <a href="{{url('admin/categories/delete/'.$row->id)}}">
+                            <a href="{{url('admin/users/delete/'.$row->id)}}">
                                 <button class="btn btn-warning btn-sm "><i class="fa fa-times"></i> Delete</button>
                             </a>
                         </td>

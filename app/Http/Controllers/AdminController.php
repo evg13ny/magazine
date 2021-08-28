@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -199,23 +200,20 @@ class AdminController extends Controller
 
             case 'delete':
 
-                $post = new Post();
+                $category = new Category();
 
-                $row = $post->find($id);
-
-                $category = $row->category()->first();
+                $row = $category->find($id);
 
                 if ($req->method() == 'POST') {
 
                     $row->delete();
 
-                    return redirect('admin/posts');
+                    return redirect('admin/categories');
                 }
 
-                return view('admin.delete_post', [
-                    'page_title' => 'Delete Post',
+                return view('admin.delete_category', [
+                    'page_title' => 'Delete Category',
                     'row' => $row,
-                    'category' => $category
                 ]);
 
                 break;
@@ -236,10 +234,71 @@ class AdminController extends Controller
         }
     }
 
-    public function users(Request $req)
+    public function users(Request $req, $type = '', $id = '')
     {
 
-        return view('admin.admin', ['page_title' => 'Users']);
+        switch ($type) {
+
+            case 'edit':
+
+                $user = new User();
+
+                if ($req->method() == 'POST') {
+
+                    $validated = $req->validate([
+
+                        'user' => 'required|string'
+                    ]);
+
+                    // $data['id']          = $id;
+                    $data['user']       = $req->input('user');
+                    $data['updated_at']  = date("Y-m-d H:i:s");
+
+                    $user->where('id', $id)->update($data);
+
+                    return redirect('admin/categories/edit/' . $id);
+                }
+
+                $row = $user->find($id);
+
+                return view('admin.edit_user', [
+                    'page_title' => 'Edit User',
+                    'row' => $row,
+                ]);
+
+                break;
+
+            case 'delete':
+
+                $user = new Category();
+
+                $row = $user->find($id);
+
+                if ($req->method() == 'POST') {
+
+                    $row->delete();
+
+                    return redirect('admin/categories');
+                }
+
+                return view('admin.delete_user', [
+                    'page_title' => 'Delete Category',
+                    'row' => $row,
+                ]);
+
+                break;
+
+            default:
+
+                $query = "select * from users order by id desc";
+                $rows = DB::select($query);
+                $data['rows'] = $rows;
+                $data['page_title'] = 'Users';
+
+                return view('admin.users', $data);
+
+                break;
+        }
     }
 
     public function save(Request $req)

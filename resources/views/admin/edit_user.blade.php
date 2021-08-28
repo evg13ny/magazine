@@ -24,9 +24,24 @@
                         @endif
 
                         <div class="form-group row">
-                            <label for="category" class="col-sm-2 col-form-label">Category Name</label>
+                            <label for="name" class="col-sm-2 col-form-label">User Name</label>
                             <div class="col-sm-10">
-                                <input value="{{$row->category}}" id="category" type="text" class="form-control" placeholder="Category" name="category" autofocus><br>
+                                <input value="{{$row->name}}" id="name" type="text" class="form-control" placeholder="Name" name="name" autofocus><br>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label">User Email</label>
+                            <div class="col-sm-10">
+                                <input value="{{$row->email}}" id="email" type="text" class="form-control" placeholder="Email" name="email" autofocus><br>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password" class="col-sm-2 col-form-label">User Password</label>
+                            <div class="col-sm-10">
+                                <input value="" id="password" type="text" class="form-control" placeholder="Password" name="password" autofocus><br>
+                                <small>Leave password empty if you don't want to change it.</small>
                             </div>
                         </div>
 
@@ -34,7 +49,7 @@
 
                         <input class="btn btn-primary" type="submit" value="Save">
 
-                        <a href="{{url('admin/categories')}}">
+                        <a href="{{url('admin/users')}}">
                             <input class="btn btn-success" style="float:right" type="button" value="Back">
                         </a>
 
@@ -45,7 +60,7 @@
                     <br>
                     <h4>Sorry, could not find that category.</h4><br>
 
-                    <a href="{{url('admin/categories')}}">
+                    <a href="{{url('admin/users')}}">
                         <input class="btn btn-success" style="float:right" type="button" value="Back">
                     </a>
 

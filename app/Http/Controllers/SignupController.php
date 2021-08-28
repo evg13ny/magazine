@@ -42,6 +42,6 @@ class SignupController extends Controller
 
         ]);
 
-        return redirect('login');
+        return redirect('admin/users');
     }
 }
