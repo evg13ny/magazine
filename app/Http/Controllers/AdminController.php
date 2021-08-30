@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Image;
 
 class AdminController extends Controller
 {
@@ -130,7 +131,17 @@ class AdminController extends Controller
                 // $rows = $post->all();
 
                 $query = "select posts.*, categories.category from posts join categories on posts.category_id = categories.id";
+
+                $img = new Image();
+
                 $rows = DB::select($query);
+
+                foreach ($rows as $key => $row) {
+
+                    $rows[$key]->image = $img->get_thumb('uploads/' . $row->image);
+                    //echo $row->image;
+                }
+
                 $data['rows'] = $rows;
                 $data['page_title'] = 'Posts';
 
@@ -247,16 +258,24 @@ class AdminController extends Controller
 
                     $validated = $req->validate([
 
-                        'user' => 'required|string'
+                        'name' => 'required|string',
+                        'email' => 'required|email',
                     ]);
 
                     // $data['id']          = $id;
-                    $data['user']       = $req->input('user');
+                    $data['name']  = $req->input('name');
+                    $data['email'] = $req->input('email');
+
+                    if (!empty($req->input('password'))) {
+
+                        $data['password'] = $req->input('password');
+                    }
+
                     $data['updated_at']  = date("Y-m-d H:i:s");
 
                     $user->where('id', $id)->update($data);
 
-                    return redirect('admin/categories/edit/' . $id);
+                    return redirect('admin/users/edit/' . $id);
                 }
 
                 $row = $user->find($id);
@@ -270,19 +289,22 @@ class AdminController extends Controller
 
             case 'delete':
 
-                $user = new Category();
+                $user = new User();
 
                 $row = $user->find($id);
 
                 if ($req->method() == 'POST') {
 
-                    $row->delete();
+                    if ($row->id != 1) {
 
-                    return redirect('admin/categories');
+                        $row->delete();
+                    }
+
+                    return redirect('admin/users');
                 }
 
                 return view('admin.delete_user', [
-                    'page_title' => 'Delete Category',
+                    'page_title' => 'Delete User',
                     'row' => $row,
                 ]);
 

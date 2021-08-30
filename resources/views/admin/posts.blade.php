@@ -30,7 +30,7 @@
                         <td>{{$row->title}}</td>
                         <td><?= $row->content ?></td>
                         <td>{{$row->category}}</td>
-                        <td><img src="{{url('uploads/'.$row->image)}}" style="width:125px;"></td>
+                        <td><img src="{{url($row->image)}}" style="width:125px;"></td>
                         <td>{{date("jS M, Y",strtotime($row->created_at))}}</td>
                         <td>
                             <a href="{{url('admin/posts/edit/'.$row->id)}}">
