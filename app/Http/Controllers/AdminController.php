@@ -139,7 +139,6 @@ class AdminController extends Controller
                 foreach ($rows as $key => $row) {
 
                     $rows[$key]->image = $img->get_thumb('uploads/' . $row->image);
-                    //echo $row->image;
                 }
 
                 $data['rows'] = $rows;
