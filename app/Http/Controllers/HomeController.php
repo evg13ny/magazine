@@ -12,18 +12,31 @@ class HomeController extends Controller
     public function index(Request $req)
     {
 
-        $query = "select posts.*, categories.category from posts join categories on posts.category_id = categories.id";
+        if ($req->input('find')) {
+
+            $query = "select posts.*, categories.category from posts join categories on posts.category_id = categories.id
+             where title like :title";
+
+            $title = "%" . $req->input('find') . "%";
+            $rows = DB::select($query, ['title' => $title]);
+        } else {
+
+            $query = "select posts.*, categories.category from posts join categories on posts.category_id = categories.id";
+            $rows = DB::select($query);
+        }
 
         $img = new Image();
-
-        $rows = DB::select($query);
 
         foreach ($rows as $key => $row) {
 
             $rows[$key]->image = $img->get_thumb_post('uploads/' . $row->image);
         }
 
-        $data['rows'] = $rows;
+        $query = "select * from categories order by id desc";
+        $categories = DB::select($query);
+
+        $data['rows']       = $rows;
+        $data['categories'] = $categories;
         $data['page_title'] = 'Home';
 
         return view('index', $data);

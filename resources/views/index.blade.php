@@ -7,7 +7,7 @@
 
 			<article class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xxs-12 animate-box">
 				<figure>
-					<a href="{{url('single')}}"><img src="{{url($row->image)}}" alt="Image" class="img-responsive"></a>
+					<a href="{{url('single/'.$row->slug)}}"><img src="{{url($row->image)}}" alt="Image" class="img-responsive"></a>
 				</figure>
 				<span class="fh5co-meta"><a href="{{url('single')}}">{{$row->category}}</a></span>
 				<h2 class="fh5co-article-title"><a href="{{url('single')}}">{{ucfirst($row->title)}}</a></h2>

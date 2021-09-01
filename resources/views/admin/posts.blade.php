@@ -47,6 +47,13 @@
                 </tbody>
             </table>
 
+            <div style="padding: 10px;">
+                <button class="btn btn-primary">First</button>
+                <button class="btn">2</button>
+                <button class="btn">3</button>
+                <button class="btn">Next<i class="fa fa-chevron-right"></i></button>
+            </div>
+
         </div>
         <!-- /. ROW  -->
         <hr />

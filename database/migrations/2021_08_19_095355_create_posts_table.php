@@ -18,6 +18,7 @@ class CreatePostsTable extends Migration
             $table->string('title',100)->index();
             $table->integer('category_id')->index();
             $table->string('image',255);
+            $table->string('slug',100);
             $table->text('content');
             $table->timestamps();
         });

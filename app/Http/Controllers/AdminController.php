@@ -44,13 +44,20 @@ class AdminController extends Controller
                     $data['content']     = $req->input('content');
                     $data['created_at']  = date("Y-m-d H:i:s");
                     $data['updated_at']  = date("Y-m-d H:i:s");
+                    $data['slug']        = $post->str_to_url($data['title']);
 
                     $post->insert($data);
 
                     return redirect('admin/posts');
                 }
 
-                return view('admin.add_post', ['page_title' => 'New Post']);
+                $query = "select * from categories order by id desc";
+                $categories = DB::select($query);
+
+                return view('admin.add_post', [
+                    'page_title' => 'New Post',
+                    'categories' => $categories,
+                ]);
 
                 break;
 
@@ -127,10 +134,11 @@ class AdminController extends Controller
 
             default:
 
-                // $post = new Post();
-                // $rows = $post->all();
+                $limit = 1;
+                $page = $req->input('page') ? (int)$req->input('page') : 1;
+                $offset = ($page - 1) * $limit;
 
-                $query = "select posts.*, categories.category from posts join categories on posts.category_id = categories.id";
+                $query = "select posts.*, categories.category from posts join categories on posts.category_id = categories.id limit $limit offset $offset";
 
                 $img = new Image();
 
@@ -229,9 +237,6 @@ class AdminController extends Controller
                 break;
 
             default:
-
-                // $post = new Post();
-                // $rows = $post->all();
 
                 $query = "select * from categories order by id desc";
                 $rows = DB::select($query);

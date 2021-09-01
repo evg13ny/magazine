@@ -7,12 +7,29 @@ use Illuminate\Support\Facades\DB;
 
 class SingleController extends Controller
 {
-    //
 
-    public function index(Request $req)
+    public function index(Request $req, $id = '')
     {
 
-        return view('view');
+        $query = "select * from posts where slug = :slug limit 1";
+
+        $row = DB::select($query, ['slug' => $id]);
+
+        if ($row) {
+
+            $query = "select * from categories where id = :id limit 1";
+            $category = DB::select($query, ['id' => $row[0]->id]);
+
+            $data['row'] = $row[0];
+            // $data['category'] = $category[0];
+            $data['category'] = $category;
+        }
+
+        $query = "select * from categories order by id desc";
+        $categories = DB::select($query);
+        $data['categories'] = $categories;
+
+        return view('single', $data);
     }
 
     public function save(Request $req)
@@ -24,6 +41,6 @@ class SingleController extends Controller
             'key' => 'required|image',
         ]);
 
-        return view('view');
+        return view('single');
     }
 }
