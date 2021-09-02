@@ -102,10 +102,14 @@ class AdminController extends Controller
                 $row = $post->find($id);
                 $category = $row->category()->first();
 
+                $query = "select * from categories order by id desc";
+                $categories = DB::select($query);
+
                 return view('admin.edit_post', [
                     'page_title' => 'Edit Post',
                     'row' => $row,
-                    'category' => $category
+                    'category' => $category,
+                    'categories' => $categories,
                 ]);
 
                 break;
@@ -135,12 +139,12 @@ class AdminController extends Controller
 
             default:
 
-                $limit = 1;
+                $limit = 2;
                 $page = $req->input('page') ? (int)$req->input('page') : 1;
                 $offset = ($page - 1) * $limit;
 
                 $page_class = new MyPage();
-                $links = $page_class->make_links($req->fullUrl(), $page, 1);
+                $links = $page_class->make_links($req->fullUrlWithQuery(['page' => $page]), $page, 1);
 
                 $query = "select posts.*, categories.category from posts join categories on posts.category_id = categories.id limit $limit offset $offset";
 
@@ -243,10 +247,18 @@ class AdminController extends Controller
 
             default:
 
-                $query = "select * from categories order by id desc";
+                $limit = 1;
+                $page = $req->input('page') ? (int)$req->input('page') : 1;
+                $offset = ($page - 1) * $limit;
+
+                $page_class = new MyPage();
+                $links = $page_class->make_links($req->fullUrlWithQuery(['page' => $page]), $page, 1);
+
+                $query = "select * from categories order by id desc limit $limit offset $offset";
                 $rows = DB::select($query);
                 $data['rows'] = $rows;
                 $data['page_title'] = 'Categories';
+                $data['links'] = $links;
 
                 return view('admin.categories', $data);
 
@@ -321,10 +333,18 @@ class AdminController extends Controller
 
             default:
 
-                $query = "select * from users order by id desc";
+                $limit = 1;
+                $page = $req->input('page') ? (int)$req->input('page') : 1;
+                $offset = ($page - 1) * $limit;
+
+                $page_class = new MyPage();
+                $links = $page_class->make_links($req->fullUrlWithQuery(['page' => $page]), $page, 1);
+
+                $query = "select * from users order by id desc limit $limit offset $offset";
                 $rows = DB::select($query);
                 $data['rows'] = $rows;
                 $data['page_title'] = 'Users';
+                $data['links'] = $links;
 
                 return view('admin.users', $data);
 

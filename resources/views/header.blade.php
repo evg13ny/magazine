@@ -87,7 +87,7 @@
 
                     <?php foreach ($categories as $category) : ?>
 
-                        <li><a href="#">{{$category->category}}</a></li>
+                        <li><a href="{{url('/?cat='.$category->id)}}">{{$category->category}}</a></li>
 
                     <?php endforeach; ?>
 

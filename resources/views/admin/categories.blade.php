@@ -41,6 +41,8 @@
                 </tbody>
             </table>
 
+            @include('pagination')
+
         </div>
         <!-- /. ROW  -->
         <hr />
