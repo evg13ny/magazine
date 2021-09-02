@@ -47,12 +47,21 @@
                 </tbody>
             </table>
 
-            <div style="padding: 10px;">
-                <button class="btn btn-primary">First</button>
-                <button class="btn">2</button>
-                <button class="btn">3</button>
-                <button class="btn">Next<i class="fa fa-chevron-right"></i></button>
-            </div>
+            <?php if (isset($links) && is_array($links)) : ?>
+
+                <div style="padding: 10px;">
+
+                    <?php foreach ($links as $link) : ?>
+
+                        <a href="<?= $link[1] ?>">
+                            <button class="btn <?= $link[2] ? 'btn-primary' : ''; ?>"><?= $link[0] ?></button>
+                        </a>
+
+                    <?php endforeach; ?>
+
+                </div>
+
+            <?php endif; ?>
 
         </div>
         <!-- /. ROW  -->

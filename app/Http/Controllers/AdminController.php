@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Image;
+use App\Models\MyPage;
 
 class AdminController extends Controller
 {
@@ -138,6 +139,9 @@ class AdminController extends Controller
                 $page = $req->input('page') ? (int)$req->input('page') : 1;
                 $offset = ($page - 1) * $limit;
 
+                $page_class = new MyPage();
+                $links = $page_class->make_links($req->fullUrl(), $page, 1);
+
                 $query = "select posts.*, categories.category from posts join categories on posts.category_id = categories.id limit $limit offset $offset";
 
                 $img = new Image();
@@ -151,6 +155,7 @@ class AdminController extends Controller
 
                 $data['rows'] = $rows;
                 $data['page_title'] = 'Posts';
+                $data['links'] = $links;
 
                 return view('admin.posts', $data);
 
