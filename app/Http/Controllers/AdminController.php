@@ -29,6 +29,12 @@ class AdminController extends Controller
                 if ($req->method() == 'POST') {
 
                     $post = new Post();
+                    $folder = "uploads/";
+
+                    if (!file_exists($folder)) {
+
+                        mkdir($folder, 0777, true);
+                    }
 
                     $validated = $req->validate([
 
@@ -37,12 +43,32 @@ class AdminController extends Controller
                         'content' => 'required'
                     ]);
 
+                    // remove images from content
+                    preg_match_all('/<img[^>]+>/', $req->input('content'), $matches);
+
+                    $new_content = $req->input('content');
+                    $image_class = new Image();
+
+                    if (is_array($matches) && count($matches) > 0) {
+
+                        foreach ($matches as $match) {
+
+                            preg_match('/src="[^"]+/', $match[0], $matches2);
+
+                            $parts = explode(",", $matches2[0]);
+                            $filename = $folder . "base_64_" . $image_class->generate_filename(50) . ".jpg";
+                            $new_content = str_replace($parts[0] . "," . $parts[1], 'src="' . $filename, $new_content);
+
+                            file_put_contents($filename, base64_decode($parts[1]));
+                        }
+                    }
+
                     $path = $req->file('file')->store('/', ['disk' => 'my_disk']);
 
                     $data['title']       = $req->input('title');
                     $data['category_id'] = 1;
                     $data['image']       = $path;
-                    $data['content']     = $req->input('content');
+                    $data['content']     = $new_content;
                     $data['created_at']  = date("Y-m-d H:i:s");
                     $data['updated_at']  = date("Y-m-d H:i:s");
                     $data['slug']        = $post->str_to_url($data['title']);
