@@ -21,8 +21,11 @@ class SingleController extends Controller
             $category = DB::select($query, ['id' => $row[0]->id]);
 
             $data['row'] = $row[0];
-            // $data['category'] = $category[0];
-            $data['category'] = $category;
+
+            if (!empty($category)) {
+
+                $data['category'] = $category[0];
+            }
         }
 
         $query = "select * from categories order by id desc";

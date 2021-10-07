@@ -51,9 +51,9 @@ class AdminController extends Controller
 
                     if (is_array($matches) && count($matches) > 0) {
 
-                        foreach ($matches as $match) {
+                        foreach ($matches[0] as $match) {
 
-                            preg_match('/src="[^"]+/', $match[0], $matches2);
+                            preg_match('/src="[^"]+/', $match, $matches2);
 
                             $parts = explode(",", $matches2[0]);
                             $filename = $folder . "base_64_" . $image_class->generate_filename(50) . ".jpg";

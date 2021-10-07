@@ -16,7 +16,6 @@
                 <thead>
                     <tr>
                         <th>Title</th>
-                        <th>Content</th>
                         <th>Category</th>
                         <th>Featured Image</th>
                         <th>Date</th>
@@ -28,7 +27,6 @@
                     @foreach($rows as $row)
                     <tr>
                         <td>{{$row->title}}</td>
-                        <td><?= $row->content ?></td>
                         <td>{{$row->category}}</td>
                         <td><img src="{{url($row->image)}}" style="width:125px;"></td>
                         <td>{{date("jS M, Y",strtotime($row->created_at))}}</td>
